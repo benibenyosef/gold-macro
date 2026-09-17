@@ -297,10 +297,10 @@
     <h2 class="eyebrow" id="hStatus">מצב המאקרו לזהב</h2>
     <div class="card hero">
       <div class="hero-top">
-        <h3>לחץ על הזהב, עם כרית תמיכה גיאופוליטית</h3>
+        <h3 id="heroTitle">תמונת המאקרו לזהב</h3>
         <span class="sig sig-neg"><span aria-hidden="true">🔴</span> שלילי בטווח הקצר</span>
       </div>
-      <p class="lead">
+      <p class="lead" id="heroLead">
         הפד העלה את הריבית ב-16.9 ל-4.00% — צעד שהיה צפוי בלוח האירועים, כך שההפתעה לא הייתה בהעלאה עצמה
         אלא בתחזיות הנלוות: 16 מתוך 18 חברי הוועדה צופים לפחות העלאה נוספת אחת ב-2026. מנגד, מחירי אנרגיה
         גבוהים והמשך הלחימה במזרח התיכון שומרים על רקע אינפלציוני וביקוש לנכסי מחסה, שתומכים בזהב בטווח הארוך.
@@ -317,7 +317,7 @@
         בטווח הקצר התמונה נוטה לרעת הזהב — ריבית ותשואות גבוהות מייקרות את עלות ההחזקה. בטווח הארוך,
         אינפלציית אנרגיה וסיכון גיאופוליטי ממשיכים לספק תמיכה.
       </p>
-      <p class="stamp">מבוסס על לוח האירועים של Metals Mine · נכון ל-17.9.2026, 12:49 שעון ישראל</p>
+      <p class="stamp" id="heroStamp">טוען נתונים עדכניים…</p>
     </div>
   </section>
 
@@ -349,7 +349,7 @@
 
   <!-- full calendar table -->
   <section id="secCal" aria-labelledby="hCal">
-    <h2 class="eyebrow" id="hCal">לוח האירועים המלא — 17–18.9.2026</h2>
+    <h2 class="eyebrow" id="hCal">לוח האירועים המלא</h2>
     <div class="card table-wrap">
       <table class="cal">
         <caption class="sr-only">אירועים כלכליים ליום חמישי ושישי, בשעון ישראל, עם תחזית ונתון קודם</caption>
@@ -362,8 +362,8 @@
             <th scope="col">רלוונטיות לזהב</th>
           </tr>
         </thead>
-        <tbody>
-          <tr><th scope="rowgroup" colspan="5" class="daysep">יום חמישי, 17.9</th></tr>
+        <tbody id="calendarBody">
+          <tr><th scope="rowgroup" colspan="5" class="daysep">טוען נתונים עדכניים…</th></tr>
           <tr><td class="mono" dir="ltr">11:00</td><td>מלאי נחושת ב-LME (בריטניה)</td><td class="mono" dir="ltr">—</td><td class="mono" dir="ltr">4,925</td><td>ירד ל-1,750 — צניחת מלאים במתכות תעשייתיות</td></tr>
           <tr><td class="mono" dir="ltr">14:00</td><td>החלטת ריבית בנק אנגליה + פרוטוקול הצבעה</td><td class="mono" dir="ltr">3.75% · 3-0-6</td><td class="mono" dir="ltr">3.75%</td><td>השפעה עקיפה דרך הליש"ט והדולר</td></tr>
           <tr class="hot"><td class="mono" dir="ltr">15:30</td><td>תביעות אבטלה ראשוניות (ארה"ב)</td><td class="mono" dir="ltr">207K</td><td class="mono" dir="ltr">206K</td><td>קריאה גבוהה מהצפי מרככת את ציפיות הריבית — תומך בזהב</td></tr>
@@ -387,7 +387,7 @@
   </section>
 
   <!-- central bank rates -->
-  <section id="secRates" aria-labelledby="hRates">
+  <section id="secRates" hidden aria-labelledby="hRates">
     <h2 class="eyebrow" id="hRates">ריביות בנקים מרכזיים</h2>
     <div class="card">
       <ul class="rates">
@@ -407,6 +407,7 @@
   <!-- market -->
   <section id="secMarket" aria-labelledby="hMarket">
     <h2 class="eyebrow" id="hMarket">דולר ותשואות</h2>
+    <p class="stat-note" id="marketUpdated" style="margin-top:-4px">טוען נתוני שוק…</p>
     <div class="two-col">
       <div>
         <h3 class="eyebrow" id="hDxy"><span aria-hidden="true">🇺🇸</span> דולר אמריקאי</h3>
@@ -415,7 +416,7 @@
             <span class="name">DXY</span>
             <span class="sig sig-warn"><span aria-hidden="true">→</span> התייצב</span>
           </div>
-          <p class="stat-row"><span class="big mono" dir="ltr">~100</span><span class="chg">נק' · עצר את העלייה מול הין, האירו והדולר הניו-זילנדי ביום ההחלטה</span></p>
+          <p class="stat-row"><span class="big mono" id="dxyValue" dir="ltr">—</span><span class="chg">נק' · עצר את העלייה מול הין, האירו והדולר הניו-זילנדי ביום ההחלטה</span></p>
           <p class="stat-note">פער הריבית לטובת ארה"ב ממשיך לתמוך בדולר, אבל ההעלאה הייתה מתומחרת מראש ולכן לא הוסיפה דלק מיידי.</p>
           <p class="impact-line"><span class="sig sig-warn"><span aria-hidden="true">🟡</span> מעורב</span> דולר חזק מקשה על הזהב, אך ההתייצבות הפחיתה את הלחץ</p>
         </div>
@@ -424,9 +425,9 @@
         <h3 class="eyebrow" id="hYields"><span aria-hidden="true">🇺🇸</span> תשואות אג"ח ארה"ב</h3>
         <div class="card" aria-labelledby="hYields">
           <div class="stat-head"><span class="name">US 10Y</span><span class="sig sig-neg"><span aria-hidden="true">↑</span> גבוהה</span></div>
-          <p class="stat-row"><span class="big mono" dir="ltr">~5%</span><span class="chg">חצתה 5% בתחילת השבוע, ירדה מעט מתחת לרמה ביום ההחלטה</span></p>
+          <p class="stat-row"><span class="big mono" id="yield10Value" dir="ltr">—</span><span class="chg">חצתה 5% בתחילת השבוע, ירדה מעט מתחת לרמה ביום ההחלטה</span></p>
           <div class="stat-head" style="margin-top:14px;"><span class="name">US 2Y</span><span class="sig sig-neg"><span aria-hidden="true">↑</span> עולה</span></div>
-          <p class="stat-row"><span class="big mono" dir="ltr">~4.7%</span><span class="chg">מגלמת עוד העלאה אחת השנה</span></p>
+          <p class="stat-row"><span class="big mono" id="yield2Value" dir="ltr">—</span><span class="chg">מגלמת עוד העלאה אחת השנה</span></p>
           <p class="impact-line"><span class="sig sig-neg"><span aria-hidden="true">🔴</span> שלילי לזהב</span> תשואות ריאליות גבוהות מייקרות את עלות ההחזקה בזהב</p>
         </div>
       </div>
@@ -438,7 +439,7 @@
   </section>
 
   <!-- Fed -->
-  <section id="secFed" aria-labelledby="hFed">
+  <section id="secFed" hidden aria-labelledby="hFed">
     <h2 class="eyebrow" id="hFed"><span aria-hidden="true">🏦</span> הבנק המרכזי האמריקאי (Federal Reserve)</h2>
     <div class="card fed-card">
       <p><strong>16.9.2026:</strong> הפד העלה את הריבית ב-25 נקודות בסיס לטווח 3.75%–4.00%, ההעלאה הראשונה
@@ -458,7 +459,7 @@
   </section>
 
   <!-- energy / geopolitics -->
-  <section id="secGeo" aria-labelledby="hGeo">
+  <section id="secGeo" hidden aria-labelledby="hGeo">
     <h2 class="eyebrow" id="hGeo"><span aria-hidden="true">🛢️</span> אנרגיה וגיאופוליטיקה</h2>
     <div class="card">
       <p class="lead" style="font-size:15.5px;">הזרוע השנייה של תמונת הזהב — זו שפועלת בכיוון ההפוך לפד.</p>
@@ -473,7 +474,7 @@
   </section>
 
   <!-- latest data -->
-  <section id="secLatest" aria-labelledby="hLatest">
+  <section id="secLatest" hidden aria-labelledby="hLatest">
     <h2 class="eyebrow" id="hLatest">הנתונים האחרונים שפורסמו</h2>
 
     <div class="card data-card">
@@ -530,7 +531,7 @@
   </section>
 
   <!-- changed -->
-  <section id="secChanged" aria-labelledby="hChanged">
+  <section id="secChanged" hidden aria-labelledby="hChanged">
     <h2 class="eyebrow" id="hChanged">מה השתנה (16–17.9.2026)</h2>
     <div class="card">
       <ul class="change-list">
@@ -681,7 +682,7 @@
     var ev = findNextEvent(now);
 
     if(!ev){
-      box.innerHTML = '<p class="event-why">לא נמצא אירוע עתידי במאגר הנתונים הנוכחי. בקשו מ-Claude לעדכן את רשימת האירועים.</p>';
+      box.innerHTML = '<p class="event-why">לא נמצא כרגע אירוע עתידי רלוונטי במאגר הנתונים.</p>';
       return;
     }
 
@@ -817,6 +818,102 @@
     });
   }
 
+
+  function fmtILDate(iso){
+    try{
+      return new Intl.DateTimeFormat('he-IL',{timeZone:'Asia/Jerusalem',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(iso));
+    }catch(e){ return iso || ''; }
+  }
+
+  function dayLabel(dateKey){
+    try{
+      var d=new Date(dateKey+'T12:00:00+03:00');
+      return new Intl.DateTimeFormat('he-IL',{timeZone:'Asia/Jerusalem',weekday:'long',day:'numeric',month:'numeric'}).format(d);
+    }catch(e){return dateKey;}
+  }
+
+  function renderCalendar(events){
+    var body=document.getElementById('calendarBody');
+    if(!body) return;
+    if(!events || !events.length){
+      body.innerHTML='<tr><td colspan="5">לא נמצאו אירועים רלוונטיים בלוח הנוכחי.</td></tr>';
+      return;
+    }
+    var grouped={};
+    events.slice().sort(function(a,b){return new Date(a.dateISO)-new Date(b.dateISO);}).forEach(function(e){
+      (grouped[e.dateKey]||(grouped[e.dateKey]=[])).push(e);
+    });
+    var html='';
+    Object.keys(grouped).sort().forEach(function(k){
+      html += '<tr><th scope="rowgroup" colspan="5" class="daysep">'+esc(dayLabel(k))+'</th></tr>';
+      grouped[k].forEach(function(e){
+        var hot=(e.importance==='critical'||e.importance==='important')?' class="hot"':'';
+        html += '<tr'+hot+'><td class="mono" dir="ltr">'+esc(e.timeLabel)+'</td><td>'+esc(e.nameHe)+'</td><td class="mono" dir="ltr">'+esc(e.forecast||'—')+'</td><td class="mono" dir="ltr">'+esc(e.previous||'—')+'</td><td>'+esc(e.whyHe||'')+'</td></tr>';
+      });
+    });
+    body.innerHTML=html;
+  }
+
+  function renderWeek(events){
+    var box=document.getElementById('weekGrid');
+    if(!box) return;
+    var grouped={};
+    events.forEach(function(e){ (grouped[e.dateKey]||(grouped[e.dateKey]=[])).push(e); });
+    var keys=Object.keys(grouped).sort().slice(0,7);
+    if(!keys.length){ box.innerHTML='<li class="week-row"><p class="we">אין אירועים זמינים.</p></li>'; return; }
+    box.innerHTML=keys.map(function(k){
+      var evs=grouped[k];
+      var best=evs.some(function(e){return e.importance==='critical';})?'critical':(evs.some(function(e){return e.importance==='important';})?'important':'medium');
+      return '<li class="week-row" data-key="'+esc(k)+'"><p class="wd">'+esc(dayLabel(k))+'</p><p class="we">'+chip(best)+' '+evs.map(function(e){return esc(e.nameHe);}).join(' · ')+'</p></li>';
+    }).join('');
+  }
+
+  function applyMarket(market, updated){
+    var y10=document.getElementById('yield10Value');
+    var y2=document.getElementById('yield2Value');
+    if(y10) y10.textContent = market && market.us10y && market.us10y.value!=null ? Number(market.us10y.value).toFixed(2)+'%' : '—';
+    if(y2) y2.textContent = market && market.us2y && market.us2y.value!=null ? Number(market.us2y.value).toFixed(2)+'%' : '—';
+    var dxy=document.getElementById('dxyValue');
+    if(dxy) dxy.textContent = market && market.dxy && market.dxy.value!=null ? Number(market.dxy.value).toFixed(2) : '—';
+    var mu=document.getElementById('marketUpdated');
+    if(mu) mu.textContent='נתוני תשואות: Federal Reserve / FRED · עודכן '+fmtILDate(updated);
+  }
+
+  function applyRemoteData(data){
+    if(!data || !Array.isArray(data.events)) return;
+    EVENTS=data.events;
+    if(data.updated){
+      SNAPSHOT_KEY=ilDateKey(new Date(data.updated));
+      var ss=document.getElementById('snapStamp');
+      if(ss) ss.textContent='עודכן אוטומטית: '+fmtILDate(data.updated)+' · Forex Factory / Fair Economy + Federal Reserve';
+    }
+    if(data.macro){
+      var ht=document.getElementById('heroTitle');
+      var hl=document.getElementById('heroLead');
+      var hs=document.getElementById('heroStamp');
+      if(ht) ht.textContent=data.macro.title||'תמונת המאקרו לזהב';
+      if(hl) hl.textContent=data.macro.summary||'';
+      if(hs) hs.textContent='עדכון אוטומטי · '+fmtILDate(data.updated);
+    }
+    var todayKey=ilDateKey(new Date());
+    var todays=EVENTS.filter(function(e){return e.dateKey===todayKey;});
+    renderNextEvent();
+    renderRisk(todays);
+    renderTimeline(todays);
+    renderCalendar(EVENTS);
+    renderWeek(EVENTS);
+    applyMarket(data.market||{},data.updated);
+    renderStamps();
+    highlightToday(todayKey);
+  }
+
+  function loadRemoteData(){
+    return fetch('data.json?v='+Date.now(),{cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw new Error('data.json '+r.status); return r.json(); })
+      .then(applyRemoteData)
+      .catch(function(err){ console.warn('Auto-update data unavailable; using embedded fallback.',err); });
+  }
+
   /* ---------- theme toggle ---------- */
   function setTheme(mode){
     document.documentElement.setAttribute('data-theme', mode);
@@ -848,6 +945,7 @@
     renderTimeline(todaysEvents);
     renderStamps();
     highlightToday(todayKey);
+    loadRemoteData();
 
     tickClock();
     setInterval(tickClock, 1000);

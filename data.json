@@ -1,0 +1,35 @@
+{
+  "updated": "2026-09-17T13:00:00+03:00",
+  "events": [],
+  "market": {
+    "us10y": {
+      "value": null,
+      "direction": "unknown",
+      "date": null,
+      "change": null
+    },
+    "us2y": {
+      "value": null,
+      "direction": "unknown",
+      "date": null,
+      "change": null
+    },
+    "dxy": {
+      "value": null,
+      "direction": "unknown",
+      "date": null,
+      "change": null
+    }
+  },
+  "macro": {
+    "status": "mixed",
+    "title": "ממתין לעדכון האוטומטי הראשון",
+    "summary": "לאחר הריצה הראשונה של GitHub Actions, לוח האירועים והתשואות יתעדכנו אוטומטית."
+  },
+  "sources": [
+    "Metals Mine / Fair Economy",
+    "Forex Factory / Fair Economy",
+    "Federal Reserve / FRED",
+    "Stooq (DXY fallback)"
+  ]
+}
