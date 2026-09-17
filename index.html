@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מוניטור מאקרו לחוזה הזהב — GC / MGC</title>
+<meta name="description" content="תמונת מצב מאקרו-כלכלית המשפיעה על חוזי הזהב GC ו-MGC: אירועים קרובים, דולר, תשואות ומדיניות הפד.">
+<meta name="theme-color" content="#f6f5f1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============ Design tokens — light first ============ */
+  :root{
+    --bg:#f6f5f1;
+    --panel:#ffffff;
+    --panel-2:#f1efe8;
+    --line:#c9c4b8;
+    --line-soft:#e0dcd2;
+    --text:#14161a;          /* 15.8:1 on --bg */
+    --dim:#3f444d;           /* 9.6:1  on --panel */
+    --dim-2:#585e69;         /* 6.4:1  on --panel */
+    --gold:#7a5a0c;          /* 6.4:1  on --panel */
+    --gold-2:#6b4e08;        /* 7.6:1  on --panel */
+    --gold-wash:#fbf4e2;
+    --green:#166b46;         /* 6.0:1 */
+    --red:#a81f1a;           /* 6.5:1 */
+    --amber:#7a4e04;         /* 7.4:1 */
+    --focus:#0b4fd1;
+    --shadow:0 1px 2px rgba(20,22,26,.06), 0 1px 10px rgba(20,22,26,.04);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0b0d10; --panel:#12151a; --panel-2:#181c23;
+    --line:#39404c; --line-soft:#272c35;
+    --text:#f2efe8; --dim:#c2c0b8; --dim-2:#a3a49e;
+    --gold:#e3c169; --gold-2:#efd489; --gold-wash:#201c10;
+    --green:#5edaa0; --red:#ff8a80; --amber:#f1b757;
+    --focus:#8ab4ff;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+  @media (prefers-contrast: more){
+    :root{ --dim:#22262d; --dim-2:#2c313a; --line:#8d8779; --gold:#5c4305; --gold-2:#5c4305; }
+    :root[data-theme="dark"]{ --dim:#f0eee8; --dim-2:#e2e0d9; --line:#6d7684; }
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Heebo',-apple-system,'Segoe UI',Arial,sans-serif;
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  .mono{font-family:'JetBrains Mono','Courier New',monospace;}
+  a{color:var(--gold-2);text-underline-offset:3px;}
+  a:hover{text-decoration-thickness:2px;}
+  ::selection{background:rgba(122,90,12,.22);}
+
+  /* keyboard focus — visible everywhere */
+  :focus-visible{
+    outline:3px solid var(--focus);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  .sr-only{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+  }
+  .skip-link{
+    position:absolute;inset-inline-start:12px;top:-60px;z-index:50;
+    background:var(--panel);color:var(--text);border:2px solid var(--focus);
+    padding:10px 16px;border-radius:8px;font-weight:600;text-decoration:none;
+    transition:top .15s ease;
+  }
+  .skip-link:focus{top:12px;}
+  @media (prefers-reduced-motion: reduce){ .skip-link{transition:none;} }
+
+  .wrap{max-width:820px;margin:0 auto;padding:24px 20px 64px;}
+
+  /* ---------- header ---------- */
+  header.top{padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:26px;}
+  .brand{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .brand h1{font-size:26px;font-weight:800;margin:0 0 6px;line-height:1.3;color:var(--text);}
+  .brand h1 span{color:var(--gold-2);}
+  .brand .sub{color:var(--dim);font-size:15px;margin:0;max-width:52ch;}
+  .head-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .clock{
+    font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold-2);
+    background:var(--panel);border:1px solid var(--line);border-radius:8px;
+    padding:8px 12px;white-space:nowrap;box-shadow:var(--shadow);
+  }
+  .clock b{color:var(--dim);font-weight:500;font-size:12.5px;display:block;margin-bottom:2px;font-family:'Heebo',sans-serif;}
+  .theme-btn{
+    font:inherit;font-size:14px;font-weight:600;color:var(--text);
+    background:var(--panel);border:1px solid var(--line);border-radius:8px;
+    padding:0 14px;min-height:44px;cursor:pointer;box-shadow:var(--shadow);
+  }
+  .theme-btn:hover{background:var(--panel-2);}
+  .meta-line{margin-top:14px;font-size:14px;color:var(--dim);display:flex;gap:16px;flex-wrap:wrap;}
+
+  details.gcinfo{margin-top:14px;}
+  details.gcinfo summary{
+    cursor:pointer;font-size:15px;color:var(--gold-2);font-weight:600;
+    display:inline-flex;align-items:center;gap:8px;min-height:44px;
+  }
+  details.gcinfo summary::marker{color:var(--gold-2);}
+  details.gcinfo p{font-size:15px;color:var(--dim);margin:6px 0 0;max-width:64ch;}
+
+  /* ---------- section shell ---------- */
+  section{margin-bottom:30px;}
+  h2.eyebrow{
+    font-size:15px;color:var(--dim);margin:0 0 10px;font-weight:700;
+    letter-spacing:.2px;
+  }
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:20px 22px;box-shadow:var(--shadow);
+  }
+
+  /* ---------- signal chips (text + icon, never colour alone) ---------- */
+  .sig{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:13.5px;font-weight:700;border-radius:999px;
+    padding:2px 10px;border:1px solid currentColor;white-space:nowrap;
+  }
+  .sig-neg{color:var(--red);background:color-mix(in srgb, var(--red) 8%, transparent);}
+  .sig-warn{color:var(--amber);background:color-mix(in srgb, var(--amber) 8%, transparent);}
+  .sig-pos{color:var(--green);background:color-mix(in srgb, var(--green) 8%, transparent);}
+  .sig-neutral{color:var(--dim);background:transparent;}
+
+  /* ---------- hero ---------- */
+  .hero{border-inline-start:5px solid var(--red);}
+  .hero-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap;}
+  .hero h3{font-size:22px;margin:0;font-weight:800;color:var(--text);}
+  .hero .lead{font-size:16.5px;color:var(--text);margin:0 0 16px;max-width:62ch;}
+  .hero .stamp{font-size:13.5px;color:var(--dim-2);margin:14px 0 0;}
+
+  .factors{list-style:none;margin:16px 0 0;padding:16px 0 0;border-top:1px solid var(--line-soft);}
+  .factors li{display:flex;gap:10px;font-size:15.5px;color:var(--text);padding:6px 0;align-items:flex-start;}
+  .factors li .sig{flex:none;margin-top:2px;}
+  .conclusion{
+    margin-top:16px;padding-top:16px;border-top:1px solid var(--line-soft);
+    font-size:16px;color:var(--text);font-weight:600;max-width:62ch;
+  }
+
+  /* ---------- next event ---------- */
+  .event-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;}
+  .event-name{font-size:19px;font-weight:700;margin:0;}
+  .event-name .en{font-weight:400;color:var(--dim);font-size:15px;}
+  .event-meta{margin-top:8px;font-size:15px;color:var(--dim);display:flex;gap:16px;flex-wrap:wrap;}
+  .event-grid{
+    margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;
+    padding-top:16px;border-top:1px solid var(--line-soft);
+  }
+  .event-grid .k{font-size:13.5px;color:var(--dim);margin:0 0 3px;font-weight:600;}
+  .event-grid .v{font-size:15.5px;color:var(--text);margin:0;}
+  .event-why{margin-top:16px;padding-top:16px;border-top:1px solid var(--line-soft);font-size:15.5px;color:var(--text);max-width:64ch;}
+
+  .countdown{
+    margin-top:18px;text-align:center;background:var(--panel-2);
+    border:1px solid var(--line);border-radius:10px;padding:16px 12px;
+  }
+  .countdown .num{font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:var(--gold-2);letter-spacing:.5px;}
+  .countdown .lbl{font-size:13.5px;color:var(--dim);margin-top:4px;}
+  .countdown.alert{border-color:var(--amber);border-width:2px;}
+  .countdown.alert .num{color:var(--amber);}
+  .countdown.critical{border-color:var(--red);border-width:2px;}
+  .countdown.critical .num{color:var(--red);}
+  .pre-alert{margin:12px 0 0;font-size:15px;text-align:center;color:var(--amber);font-weight:700;}
+  .pre-alert.critical{color:var(--red);}
+
+  /* ---------- risk ---------- */
+  .risk-badge{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .risk-badge h3{margin:0;font-size:20px;font-weight:800;color:var(--text);}
+  .risk-list{list-style:none;margin:16px 0 0;padding:14px 0 0;border-top:1px solid var(--line-soft);}
+  .risk-list li{font-size:15.5px;color:var(--text);padding:6px 0;display:flex;gap:10px;align-items:flex-start;}
+
+  /* ---------- timeline ---------- */
+  .timeline{margin:0;padding:0;list-style:none;}
+  .t-row{display:grid;grid-template-columns:76px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line-soft);}
+  .t-row:last-child{border-bottom:none;}
+  .t-row:first-child{padding-top:0;}
+  .t-time{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold-2);font-weight:600;padding-top:2px;}
+  .t-name{font-size:16px;font-weight:700;margin:0 0 4px;}
+  .t-name .en{font-weight:400;color:var(--dim);font-size:14px;}
+  .t-why{font-size:15px;color:var(--dim);margin:4px 0 0;max-width:58ch;}
+  .empty-note{font-size:15.5px;color:var(--dim);padding:4px 0;margin:0;}
+
+  /* ---------- stat cards ---------- */
+  .stat-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  .stat-head .name{font-size:16px;font-weight:700;}
+  .stat-row{display:flex;align-items:baseline;gap:12px;margin-top:8px;flex-wrap:wrap;}
+  .stat-row .big{font-family:'JetBrains Mono',monospace;font-size:27px;font-weight:700;}
+  .stat-row .chg{font-size:14.5px;color:var(--dim);}
+  .stat-note{font-size:15px;color:var(--dim);margin-top:12px;}
+  .impact-line{margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft);}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media (max-width:640px){.two-col{grid-template-columns:1fr;} .event-grid{grid-template-columns:1fr;}}
+
+  /* ---------- fed / data cards ---------- */
+  .fed-card p{font-size:15.5px;color:var(--text);margin:0 0 12px;max-width:66ch;}
+  .fed-card p:last-child{margin-bottom:0;}
+  .fed-source{font-size:13.5px;color:var(--dim);margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft);}
+
+  .data-card{margin-bottom:14px;}
+  .data-card:last-child{margin-bottom:0;}
+  .data-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .data-head h3{font-size:16.5px;font-weight:700;margin:0;}
+  .data-head .when{font-size:13.5px;color:var(--dim);}
+  .data-figs{display:flex;gap:26px;margin-top:14px;flex-wrap:wrap;list-style:none;padding:0;}
+  .data-figs .k{font-size:13px;color:var(--dim);margin:0 0 2px;font-weight:600;}
+  .data-figs .v{font-family:'JetBrains Mono',monospace;font-size:17px;margin:0;font-weight:600;}
+  .data-verdict{margin:14px 0 0;padding-top:14px;border-top:1px solid var(--line-soft);font-size:15px;color:var(--text);max-width:66ch;display:flex;gap:10px;align-items:flex-start;}
+
+  /* ---------- changed ---------- */
+  .change-list{list-style:none;margin:0;padding:0;}
+  .change-list li{display:flex;gap:12px;font-size:15.5px;padding:10px 0;border-bottom:1px solid var(--line-soft);align-items:flex-start;}
+  .change-list li:last-child{border-bottom:none;}
+
+  /* ---------- week ---------- */
+  .week-grid{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;box-shadow:var(--shadow);}
+  .week-row{display:grid;grid-template-columns:140px 1fr;gap:14px;padding:14px 18px;background:var(--panel);border-bottom:1px solid var(--line-soft);}
+  .week-row:last-child{border-bottom:none;}
+  .week-row.is-today{background:var(--gold-wash);border-inline-start:4px solid var(--gold);}
+  .wd{font-size:15px;font-weight:700;}
+  .wd small{display:block;font-weight:400;color:var(--dim);font-size:13px;margin-top:1px;}
+  .we{font-size:15.5px;color:var(--text);align-self:center;}
+  @media (max-width:560px){.week-row{grid-template-columns:1fr;gap:4px;}}
+
+  .ahead-list{list-style:none;margin:18px 0 0;padding:0;}
+  .ahead-list li{display:flex;gap:14px;font-size:15.5px;color:var(--text);padding:8px 0;border-bottom:1px solid var(--line-soft);}
+  .ahead-list li:last-child{border-bottom:none;}
+  .ahead-list li .d{font-family:'JetBrains Mono',monospace;color:var(--gold-2);font-weight:700;flex:none;min-width:56px;}
+  /* ---------- calendar table ---------- */
+  .table-wrap{overflow-x:auto;padding:0;}
+  table.cal{border-collapse:collapse;width:100%;min-width:640px;font-size:15px;}
+  table.cal th,table.cal td{text-align:start;padding:10px 14px;border-bottom:1px solid var(--line-soft);vertical-align:top;}
+  table.cal thead th{font-size:13.5px;color:var(--dim);background:var(--panel-2);border-bottom:1px solid var(--line);position:sticky;top:0;}
+  table.cal th.daysep{background:var(--panel-2);font-size:14px;font-weight:700;color:var(--text);}
+  table.cal tr.hot td{background:var(--gold-wash);}
+  table.cal tr.hot td:first-child{border-inline-start:4px solid var(--gold);}
+
+  /* ---------- central bank rates ---------- */
+  .rates{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;}
+  .rates li{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--panel-2);border:1px solid var(--line-soft);border-radius:8px;padding:10px 12px;}
+  .r-cty{font-size:14.5px;color:var(--dim);}
+  .r-val{font-size:18px;font-weight:700;margin-inline-start:auto;}
+
+  /* ---------- dot plot list ---------- */
+  .dots{list-style:none;margin:8px 0 0;padding:0;}
+  .dots li{display:flex;gap:14px;font-size:15.5px;padding:7px 0;border-bottom:1px solid var(--line-soft);align-items:flex-start;}
+  .dots li:last-child{border-bottom:none;}
+  .d-v{flex:none;min-width:58px;font-weight:700;color:var(--gold-2);}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <div>
+        <h1>מוניטור מאקרו לחוזה <span>הזהב</span></h1>
+        <p class="sub">GC — חוזה הזהב המרכזי בקומקס · MGC — חוזה המיקרו המקביל</p>
+      </div>
+      <div class="head-tools">
+        <button type="button" class="theme-btn" id="themeBtn" aria-pressed="false">
+          <span aria-hidden="true">🌙</span> מצב כהה
+        </button>
+        <p class="clock"><b id="clockLabel">שעון ישראל</b><span class="mono" id="ilClock" dir="ltr" role="timer" aria-labelledby="clockLabel" aria-live="off">--:--:--</span></p>
+      </div>
+    </div>
+    <p class="meta-line">
+      <span id="snapStamp">תמונת המצב עודכנה: 17 בספטמבר 2026, 12:49 שעון ישראל · מקור: Metals Mine</span>
+      <span id="daysSince"></span>
+    </p>
+    <details class="gcinfo">
+      <summary>מה זה GC ו-MGC, ולמה אין כאן מחיר חי?</summary>
+      <p>
+        GC הוא החוזה העתידי המרכזי על זהב הנסחר בבורסת הקומקס (COMEX), בגודל 100 אונקיות טרוי לחוזה.
+        MGC הוא הגרסה המוקטנת (Micro) של אותו חוזה — כעשירית מהגודל. מבחינת גורמי המאקרו שמניעים את
+        המחיר, שני החוזים מקבלים כאן את אותו ניתוח בדיוק. האתר לא מציג מחיר חוזה בזמן אמת: נתון עדכני
+        ואמין ל-GC/MGC מגיע בפועל ממקורות בתשלום, וכדי לא להציג נתון מושהה כאילו הוא חי — הוא פשוט לא
+        מוצג כאן.
+      </p>
+    </details>
+  </header>
+
+  <main id="main">
+
+  <!-- macro status -->
+  <section id="secStatus" aria-labelledby="hStatus">
+    <h2 class="eyebrow" id="hStatus">מצב המאקרו לזהב</h2>
+    <div class="card hero">
+      <div class="hero-top">
+        <h3>לחץ על הזהב, עם כרית תמיכה גיאופוליטית</h3>
+        <span class="sig sig-neg"><span aria-hidden="true">🔴</span> שלילי בטווח הקצר</span>
+      </div>
+      <p class="lead">
+        הפד העלה את הריבית ב-16.9 ל-4.00% — צעד שהיה צפוי בלוח האירועים, כך שההפתעה לא הייתה בהעלאה עצמה
+        אלא בתחזיות הנלוות: 16 מתוך 18 חברי הוועדה צופים לפחות העלאה נוספת אחת ב-2026. מנגד, מחירי אנרגיה
+        גבוהים והמשך הלחימה במזרח התיכון שומרים על רקע אינפלציוני וביקוש לנכסי מחסה, שתומכים בזהב בטווח הארוך.
+      </p>
+      <ul class="factors">
+        <li><span class="sig sig-neg"><span aria-hidden="true">🔴</span> שלילי</span><span>הפד העלה ריבית ל-4.00% והדוט-פלוט ניצי: 16 מ-18 חברים רואים עוד העלאה השנה</span></li>
+        <li><span class="sig sig-neg"><span aria-hidden="true">🔴</span> שלילי</span><span>מכירות קמעונאיות חזקות בהרבה מהצפי (1.2% מול 0.8%) — כלכלה חזקה תומכת בעמדה הניצית</span></li>
+        <li><span class="sig sig-neg"><span aria-hidden="true">🔴</span> שלילי</span><span>תשואת ה-10 שנים סביב 5% — רמות שיא של כמעט 20 שנה</span></li>
+        <li><span class="sig sig-warn"><span aria-hidden="true">🟡</span> מעורב</span><span>הדולר סביב 100 — הפסיק לטפס מול הין, האירו והדולר הניו-זילנדי ביום ההחלטה</span></li>
+        <li><span class="sig sig-pos"><span aria-hidden="true">🟢</span> תומך</span><span>מחירי אנרגיה גבוהים אחרי הפגיעה בצינור הנפט הסעודי ושיבושים במצרי הורמוז — דלק לאינפלציה ולביקוש לזהב</span></li>
+        <li><span class="sig sig-pos"><span aria-hidden="true">🟢</span> תומך</span><span>מדד המחירים לייבוא עלה 0.7% מול 0.4% בצפי — אינפלציה מיובאת</span></li>
+      </ul>
+      <p class="conclusion">
+        בטווח הקצר התמונה נוטה לרעת הזהב — ריבית ותשואות גבוהות מייקרות את עלות ההחזקה. בטווח הארוך,
+        אינפלציית אנרגיה וסיכון גיאופוליטי ממשיכים לספק תמיכה.
+      </p>
+      <p class="stamp">מבוסס על לוח האירועים של Metals Mine · נכון ל-17.9.2026, 12:49 שעון ישראל</p>
+    </div>
+  </section>
+
+  <!-- next event -->
+  <section id="secNext" aria-labelledby="hNext">
+    <h2 class="eyebrow" id="hNext">האירוע הבא שעשוי להשפיע על הזהב</h2>
+    <div class="card" id="nextEventBox"></div>
+  </section>
+
+  <!-- risk -->
+  <section id="secRisk" aria-labelledby="hRisk">
+    <h2 class="eyebrow" id="hRisk">רמת הסיכון למסחר היום</h2>
+    <div class="card">
+      <div class="risk-badge">
+        <h3 id="riskTitle">גבוהה</h3>
+        <span class="sig sig-warn" id="riskChip"><span aria-hidden="true">🟠</span> רמת סיכון גבוהה</span>
+      </div>
+      <ul class="risk-list" id="riskList"></ul>
+    </div>
+  </section>
+
+  <!-- today -->
+  <section id="secToday" aria-labelledby="hToday">
+    <h2 class="eyebrow" id="hToday">אירועי היום</h2>
+    <div class="card">
+      <ul class="timeline" id="todayTimeline"></ul>
+    </div>
+  </section>
+
+  <!-- full calendar table -->
+  <section id="secCal" aria-labelledby="hCal">
+    <h2 class="eyebrow" id="hCal">לוח האירועים המלא — 17–18.9.2026</h2>
+    <div class="card table-wrap">
+      <table class="cal">
+        <caption class="sr-only">אירועים כלכליים ליום חמישי ושישי, בשעון ישראל, עם תחזית ונתון קודם</caption>
+        <thead>
+          <tr>
+            <th scope="col">שעה</th>
+            <th scope="col">אירוע</th>
+            <th scope="col">תחזית</th>
+            <th scope="col">קודם</th>
+            <th scope="col">רלוונטיות לזהב</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="rowgroup" colspan="5" class="daysep">יום חמישי, 17.9</th></tr>
+          <tr><td class="mono" dir="ltr">11:00</td><td>מלאי נחושת ב-LME (בריטניה)</td><td class="mono" dir="ltr">—</td><td class="mono" dir="ltr">4,925</td><td>ירד ל-1,750 — צניחת מלאים במתכות תעשייתיות</td></tr>
+          <tr><td class="mono" dir="ltr">14:00</td><td>החלטת ריבית בנק אנגליה + פרוטוקול הצבעה</td><td class="mono" dir="ltr">3.75% · 3-0-6</td><td class="mono" dir="ltr">3.75%</td><td>השפעה עקיפה דרך הליש"ט והדולר</td></tr>
+          <tr class="hot"><td class="mono" dir="ltr">15:30</td><td>תביעות אבטלה ראשוניות (ארה"ב)</td><td class="mono" dir="ltr">207K</td><td class="mono" dir="ltr">206K</td><td>קריאה גבוהה מהצפי מרככת את ציפיות הריבית — תומך בזהב</td></tr>
+          <tr class="hot"><td class="mono" dir="ltr">15:30</td><td>מדד פילי פד לייצור (ארה"ב)</td><td class="mono" dir="ltr">31.3</td><td class="mono" dir="ltr">47.4</td><td>צפויה האטה חדה מהקריאה הקודמת</td></tr>
+          <tr><td class="mono" dir="ltr">15:30</td><td>התחלות בנייה / היתרי בנייה (ארה"ב)</td><td class="mono" dir="ltr">1.32M · 1.40M</td><td class="mono" dir="ltr">1.24M · 1.43M</td><td>השפעה מתונה, חלק מתמונת הצמיחה</td></tr>
+          <tr><td class="mono" dir="ltr">16:00</td><td>יתרות המט"ח של רוסיה</td><td class="mono" dir="ltr">—</td><td class="mono" dir="ltr">754B</td><td>משקף רכישות זהב של בנקים מרכזיים</td></tr>
+          <tr><td class="mono" dir="ltr">17:00</td><td>מכירות בתים בהמתנה (ארה"ב)</td><td class="mono" dir="ltr">-0.2%</td><td class="mono" dir="ltr">-2.3%</td><td>השפעה נמוכה</td></tr>
+          <tr class="hot"><td class="mono" dir="ltr">טרם נקבע</td><td>החלטת ריבית בנק יפן</td><td class="mono" dir="ltr">1.25%</td><td class="mono" dir="ltr">1.00%</td><td>הין הוא 13.6% ממדד הדולר — השפעה עקיפה משמעותית</td></tr>
+          <tr><td class="mono" dir="ltr">02:30</td><td>נגידת הבנק המרכזי האוסטרלי בולוק נואמת</td><td class="mono" dir="ltr">—</td><td class="mono" dir="ltr">—</td><td>אוסטרליה יצרנית זהב מרכזית</td></tr>
+
+          <tr><th scope="rowgroup" colspan="5" class="daysep">יום שישי, 18.9</th></tr>
+          <tr><td class="mono" dir="ltr">09:00</td><td>מכירות קמעונאיות (בריטניה)</td><td class="mono" dir="ltr">-0.2%</td><td class="mono" dir="ltr">-0.5%</td><td>השפעה נמוכה</td></tr>
+          <tr><td class="mono" dir="ltr">16:15</td><td>ייצור תעשייתי וניצולת כושר (ארה"ב)</td><td class="mono" dir="ltr">0.3% · 76.4%</td><td class="mono" dir="ltr">0.2% · 76.3%</td><td>השפעה מתונה</td></tr>
+          <tr class="hot"><td class="mono" dir="ltr">16:30</td><td>נאום חברת הפד באומן</td><td class="mono" dir="ltr">—</td><td class="mono" dir="ltr">—</td><td>הנאום הראשון אחרי ההחלטה — חשוב לפרשנות</td></tr>
+          <tr class="hot"><td class="mono" dir="ltr">18:45</td><td>נאום חבר הפד שמיד</td><td class="mono" dir="ltr">—</td><td class="mono" dir="ltr">—</td><td>עשוי להבהיר את קצב ההעלאות הבא</td></tr>
+          <tr><td class="mono" dir="ltr">17:00</td><td>מדד המדדים המובילים (ארה"ב)</td><td class="mono" dir="ltr">0.1%</td><td class="mono" dir="ltr">0.2%</td><td>השפעה נמוכה</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="stat-note">השעות הומרו לשעון ישראל משעון ניו-יורק. שורות מודגשות = אירועים בעלי פוטנציאל תנועה גבוה בזהב.</p>
+  </section>
+
+  <!-- central bank rates -->
+  <section id="secRates" aria-labelledby="hRates">
+    <h2 class="eyebrow" id="hRates">ריביות בנקים מרכזיים</h2>
+    <div class="card">
+      <ul class="rates">
+        <li><span class="r-cty">ארה"ב</span><span class="r-val mono" dir="ltr">4.00%</span><span class="sig sig-neg"><span aria-hidden="true">↑</span> הועלתה</span></li>
+        <li><span class="r-cty">אוסטרליה</span><span class="r-val mono" dir="ltr">4.35%</span></li>
+        <li><span class="r-cty">בריטניה</span><span class="r-val mono" dir="ltr">3.75%</span></li>
+        <li><span class="r-cty">ניו זילנד</span><span class="r-val mono" dir="ltr">2.75%</span></li>
+        <li><span class="r-cty">גוש האירו</span><span class="r-val mono" dir="ltr">2.65%</span></li>
+        <li><span class="r-cty">קנדה</span><span class="r-val mono" dir="ltr">2.25%</span></li>
+        <li><span class="r-cty">יפן</span><span class="r-val mono" dir="ltr">1.00%</span></li>
+        <li><span class="r-cty">שווייץ</span><span class="r-val mono" dir="ltr">0.00%</span></li>
+      </ul>
+      <p class="stat-note">ארה"ב מובילה כעת את הריבית בין הכלכלות הגדולות — פער שתומך בדולר ומקשה על הזהב.</p>
+    </div>
+  </section>
+
+  <!-- market -->
+  <section id="secMarket" aria-labelledby="hMarket">
+    <h2 class="eyebrow" id="hMarket">דולר ותשואות</h2>
+    <div class="two-col">
+      <div>
+        <h3 class="eyebrow" id="hDxy"><span aria-hidden="true">🇺🇸</span> דולר אמריקאי</h3>
+        <div class="card" aria-labelledby="hDxy">
+          <div class="stat-head">
+            <span class="name">DXY</span>
+            <span class="sig sig-warn"><span aria-hidden="true">→</span> התייצב</span>
+          </div>
+          <p class="stat-row"><span class="big mono" dir="ltr">~100</span><span class="chg">נק' · עצר את העלייה מול הין, האירו והדולר הניו-זילנדי ביום ההחלטה</span></p>
+          <p class="stat-note">פער הריבית לטובת ארה"ב ממשיך לתמוך בדולר, אבל ההעלאה הייתה מתומחרת מראש ולכן לא הוסיפה דלק מיידי.</p>
+          <p class="impact-line"><span class="sig sig-warn"><span aria-hidden="true">🟡</span> מעורב</span> דולר חזק מקשה על הזהב, אך ההתייצבות הפחיתה את הלחץ</p>
+        </div>
+      </div>
+      <div>
+        <h3 class="eyebrow" id="hYields"><span aria-hidden="true">🇺🇸</span> תשואות אג"ח ארה"ב</h3>
+        <div class="card" aria-labelledby="hYields">
+          <div class="stat-head"><span class="name">US 10Y</span><span class="sig sig-neg"><span aria-hidden="true">↑</span> גבוהה</span></div>
+          <p class="stat-row"><span class="big mono" dir="ltr">~5%</span><span class="chg">חצתה 5% בתחילת השבוע, ירדה מעט מתחת לרמה ביום ההחלטה</span></p>
+          <div class="stat-head" style="margin-top:14px;"><span class="name">US 2Y</span><span class="sig sig-neg"><span aria-hidden="true">↑</span> עולה</span></div>
+          <p class="stat-row"><span class="big mono" dir="ltr">~4.7%</span><span class="chg">מגלמת עוד העלאה אחת השנה</span></p>
+          <p class="impact-line"><span class="sig sig-neg"><span aria-hidden="true">🔴</span> שלילי לזהב</span> תשואות ריאליות גבוהות מייקרות את עלות ההחזקה בזהב</p>
+        </div>
+      </div>
+    </div>
+    <p class="stat-note" style="max-width:70ch;">
+      הזהב אינו נושא ריבית. כשתשואות האג"ח עולות, האלטרנטיבה של החזקת אג"ח הופכת אטרקטיבית יותר ביחס
+      להחזקת זהב — ולהפך כשתשואות יורדות.
+    </p>
+  </section>
+
+  <!-- Fed -->
+  <section id="secFed" aria-labelledby="hFed">
+    <h2 class="eyebrow" id="hFed"><span aria-hidden="true">🏦</span> הבנק המרכזי האמריקאי (Federal Reserve)</h2>
+    <div class="card fed-card">
+      <p><strong>16.9.2026:</strong> הפד העלה את הריבית ב-25 נקודות בסיס לטווח 3.75%–4.00%, ההעלאה הראשונה
+      מאז 2023 ובהצבעה פה אחד (12–0). זו ההחלטה הראשונה בכהונתו של יו"ר הפד קווין וורש. הלוח הכלכלי צפה
+      את ההעלאה מראש — ההפתעה הייתה בעוצמת המסר הניצי, לא בהחלטה עצמה.</p>
+      <h3 class="eyebrow" style="margin-top:16px;" id="hDots">תחזיות חברי הוועדה (דוט-פלוט)</h3>
+      <ul class="dots" aria-labelledby="hDots">
+        <li><span class="d-v mono" dir="ltr">16/18</span><span>חברים צופים לפחות העלאה נוספת אחת ב-2026</span></li>
+        <li><span class="d-v mono" dir="ltr">12/18</span><span>צופים בדיוק העלאה אחת נוספת של 25 נ"ב השנה; ארבעה צופים שתיים; שניים לא צופים העלאות נוספות</span></li>
+        <li><span class="d-v mono" dir="ltr">4.1%</span><span>חציון תחזית הריבית לסוף 2026 ולסוף 2027</span></li>
+        <li><span class="d-v mono" dir="ltr">3.6%</span><span>חציון תחזית הריבית לסוף 2029</span></li>
+        <li><span class="d-v mono" dir="ltr">2.3%</span><span>חציון צמיחת התמ"ג ב-2026 (2.4% ב-2027) · אבטלה 4.1%</span></li>
+      </ul>
+      <p class="data-verdict"><span class="sig sig-neg"><span aria-hidden="true">🔴</span> ניצי</span><span>מסלול ריבית גבוה יותר לאורך זמן, בלי הורדות באופק הקרוב — הסביבה הקשה ביותר לזהב מזה שנים.</span></p>
+      <p class="fed-source">מקור: הודעת ה-FOMC ותחזיות הוועדה, דרך Metals Mine · עודכן 17.9.2026</p>
+    </div>
+  </section>
+
+  <!-- energy / geopolitics -->
+  <section id="secGeo" aria-labelledby="hGeo">
+    <h2 class="eyebrow" id="hGeo"><span aria-hidden="true">🛢️</span> אנרגיה וגיאופוליטיקה</h2>
+    <div class="card">
+      <p class="lead" style="font-size:15.5px;">הזרוע השנייה של תמונת הזהב — זו שפועלת בכיוון ההפוך לפד.</p>
+      <ul class="risk-list" style="border-top:none;padding-top:0;margin-top:10px;">
+        <li><span class="sig sig-pos"><span aria-hidden="true">🟢</span> תומך</span><span>מתקפה פגעה בשתי תחנות שאיבה בצינור הנפט הסעודי מזרח–מערב. סעודיה מנסה להחזיר כמחצית מהתפוקה תוך ימים, וכשישה שבועות לחזרה מלאה.</span></li>
+        <li><span class="sig sig-pos"><span aria-hidden="true">🟢</span> תומך</span><span>שיבושים בשינוע דרך מצרי הורמוז שומרים על מחירי אנרגיה גבוהים; מרווחי הזיקוק חריגים בגובהם.</span></li>
+        <li><span class="sig sig-pos"><span aria-hidden="true">🟢</span> תומך</span><span>הבנק המרכזי של קנדה ציין בפרוטוקול שהסכסוך באיראן העלה את ציפיות השוק למחירי נפט — לחץ אינפלציוני גלובלי.</span></li>
+        <li><span class="sig sig-warn"><span aria-hidden="true">🟡</span> לשים לב</span><span>מלאי הנחושת ב-LME צנחו מ-4,925 ל-1,750 בתוך יום — סימן למתיחות בשרשרת האספקה של מתכות.</span></li>
+      </ul>
+      <p class="data-verdict"><span>אלו הגורמים שעשויים להפוך את הירידה הנוכחית להזדמנות ארוכת טווח, כפי שטוענים חלק מהאנליסטים בשוק.</span></p>
+    </div>
+  </section>
+
+  <!-- latest data -->
+  <section id="secLatest" aria-labelledby="hLatest">
+    <h2 class="eyebrow" id="hLatest">הנתונים האחרונים שפורסמו</h2>
+
+    <div class="card data-card">
+      <div class="data-head"><h3>החלטת ריבית הפד</h3><span class="when">16.9.2026</span></div>
+      <ul class="data-figs">
+        <li><p class="k">בפועל</p><p class="v mono" dir="ltr">4.00%</p></li>
+        <li><p class="k">תחזית</p><p class="v mono" dir="ltr">4.00%</p></li>
+        <li><p class="k">קודם</p><p class="v mono" dir="ltr">3.75%</p></li>
+        <li><p class="k">הצבעה</p><p class="v mono" dir="ltr">12–0</p></li>
+      </ul>
+      <p class="data-verdict"><span class="sig sig-neg"><span aria-hidden="true">🔴</span> שלילי לזהב</span><span>ההעלאה תאמה את התחזית, אך התחזיות הנלוות היו ניציות מהצפוי.</span></p>
+    </div>
+
+    <div class="card data-card">
+      <div class="data-head"><h3>מכירות קמעונאיות (ארה"ב) — אוגוסט</h3><span class="when">16.9.2026</span></div>
+      <ul class="data-figs">
+        <li><p class="k">כללי</p><p class="v mono" dir="ltr">1.2%</p></li>
+        <li><p class="k">תחזית</p><p class="v mono" dir="ltr">0.8%</p></li>
+        <li><p class="k">ליבה</p><p class="v mono" dir="ltr">1.4%</p></li>
+        <li><p class="k">תחזית ליבה</p><p class="v mono" dir="ltr">0.6%</p></li>
+      </ul>
+      <p class="data-verdict"><span class="sig sig-neg"><span aria-hidden="true">🔴</span> שלילי לזהב</span><span>הצרכן האמריקאי חזק בהרבה מהצפי, אחרי חודש קודם שלילי — מחזק את ההצדקה להמשך העלאות.</span></p>
+    </div>
+
+    <div class="card data-card">
+      <div class="data-head"><h3>מחירי ייבוא (ארה"ב)</h3><span class="when">16.9.2026</span></div>
+      <ul class="data-figs">
+        <li><p class="k">בפועל</p><p class="v mono" dir="ltr">0.7%</p></li>
+        <li><p class="k">תחזית</p><p class="v mono" dir="ltr">0.4%</p></li>
+        <li><p class="k">קודם</p><p class="v mono" dir="ltr">-0.3%</p></li>
+      </ul>
+      <p class="data-verdict"><span class="sig sig-warn"><span aria-hidden="true">🟡</span> דו-כיווני</span><span>אינפלציה מיובאת גבוהה — ניצי לריבית (שלילי לזהב), אך מחזק את סיפור הגידור מפני אינפלציה (חיובי לזהב).</span></p>
+    </div>
+
+    <div class="card data-card">
+      <div class="data-head"><h3>דוח תעסוקה (NFP) — אוגוסט</h3><span class="when">4.9.2026</span></div>
+      <ul class="data-figs">
+        <li><p class="k">בפועל</p><p class="v mono" dir="ltr">+162,000</p></li>
+        <li><p class="k">תחזית</p><p class="v mono" dir="ltr">+55,000</p></li>
+        <li><p class="k">קודם</p><p class="v mono" dir="ltr">+21,000</p></li>
+        <li><p class="k">אבטלה</p><p class="v mono" dir="ltr">4.1%</p></li>
+      </ul>
+      <p class="data-verdict"><span class="sig sig-neg"><span aria-hidden="true">🔴</span> שלילי לזהב</span><span>דוח חזק משמעותית מהצפי — תמך בדולר ובתשואות ובהצדקה להעלאת הריבית.</span></p>
+    </div>
+
+    <div class="card data-card">
+      <div class="data-head"><h3>מדד המחירים לצרכן (CPI) — אוגוסט</h3><span class="when">אמצע ספטמבר</span></div>
+      <ul class="data-figs">
+        <li><p class="k">שנתי</p><p class="v mono" dir="ltr">3.4%</p></li>
+        <li><p class="k">ליבה</p><p class="v mono" dir="ltr">2.4%</p></li>
+      </ul>
+      <p class="data-verdict"><span class="sig sig-warn"><span aria-hidden="true">🟡</span> מעורב</span><span>אינפלציה מעל היעד ממשיכה להצדיק את העמדה הניצית — בדרך כלל אינו תומך בזהב בטווח הקצר.</span></p>
+    </div>
+  </section>
+
+  <!-- changed -->
+  <section id="secChanged" aria-labelledby="hChanged">
+    <h2 class="eyebrow" id="hChanged">מה השתנה (16–17.9.2026)</h2>
+    <div class="card">
+      <ul class="change-list">
+        <li><span class="sig sig-neg"><span aria-hidden="true">↑</span> ריבית</span><span>הפד העלה ל-4.00% — ההעלאה הראשונה מאז 2023, פה אחד</span></li>
+        <li><span class="sig sig-neg"><span aria-hidden="true">🔴</span> ניצי</span><span>הדוט-פלוט: 16 מ-18 חברים צופים לפחות העלאה נוספת ב-2026</span></li>
+        <li><span class="sig sig-neg"><span aria-hidden="true">↑</span> נתונים</span><span>מכירות קמעונאיות ומחירי ייבוא היכו את התחזיות בפער ניכר</span></li>
+        <li><span class="sig sig-pos"><span aria-hidden="true">↓</span> הקלה</span><span>הנפט ירד מהשיא, התשואה ל-10 שנים ירדה מעט מתחת ל-5% והדולר עצר — הזהב תיקן כלפי מעלה לפני ההחלטה</span></li>
+        <li><span class="sig sig-warn"><span aria-hidden="true">↓</span> מלאים</span><span>מלאי הנחושת ב-LME צנחו מ-4,925 ל-1,750</span></li>
+      </ul>
+      <p class="data-verdict"><span>הכיוון הקצר שלילי לזהב, אך התנועה ביום ההחלטה הראתה שחלק ניכר מהחדשות כבר היה מגולם במחיר.</span></p>
+    </div>
+  </section>
+
+  <!-- week -->
+  <section id="secWeek" aria-labelledby="hWeek">
+    <h2 class="eyebrow" id="hWeek">השבוע בזהב</h2>
+    <ul class="week-grid" id="weekGrid">
+      <li class="week-row" data-key="2026-09-14"><p class="wd">יום שני<small>14.9</small></p><p class="we">נתוני סין: ייצור תעשייתי 5.2% מעל הצפי, קמעונאות מתחת · מלאי נחושת עלו ל-8,425</p></li>
+      <li class="week-row" data-key="2026-09-15"><p class="wd">יום שלישי<small>15.9</small></p><p class="we"><span class="sig sig-warn"><span aria-hidden="true">🟡</span> בינוני</span> מדד אמפייר סטייט צנח ל-7.6 מול 14.8 בצפי · נאום שר האוצר בסנט</p></li>
+      <li class="week-row" data-key="2026-09-16"><p class="wd">יום רביעי<small>16.9</small></p><p class="we"><span class="sig sig-neg"><span aria-hidden="true">🔥</span> קריטי</span> <strong>החלטת ריבית הפד</strong> — הועלתה ל-4.00% · מכירות קמעונאיות חזקות</p></li>
+      <li class="week-row" data-key="2026-09-17"><p class="wd">יום חמישי<small>17.9</small></p><p class="we"><span class="sig sig-warn"><span aria-hidden="true">🟠</span> חשוב</span> תביעות אבטלה · פילי פד · ריבית בנק אנגליה · ריבית בנק יפן (טרם נקבע)</p></li>
+      <li class="week-row" data-key="2026-09-18"><p class="wd">יום שישי<small>18.9</small></p><p class="we"><span class="sig sig-warn"><span aria-hidden="true">🟡</span> בינוני</span> נאומי חברי הפד באומן ושמיד · ייצור תעשייתי · מסיבת עיתונאים של בנק יפן</p></li>
+    </ul>
+
+    <h3 class="eyebrow" style="margin-top:22px;" id="hAhead">תאריכי מפתח בהמשך</h3>
+    <ul class="ahead-list" aria-labelledby="hAhead">
+      <li><span class="d mono" dir="ltr">26.9</span><span>מדד ה-PCE (אוגוסט) — מדד האינפלציה המועדף על הפד</span></li>
+      <li><span class="d mono" dir="ltr">2.10</span><span>דוח תעסוקה (NFP, ספטמבר)</span></li>
+      <li><span class="d mono" dir="ltr">14.10</span><span>מדד המחירים לצרכן (CPI, ספטמבר)</span></li>
+      <li><span class="d mono" dir="ltr">28.10</span><span>החלטת ריבית הפד הבאה — השוק מגלם סיכוי ממשי להעלאה נוספת</span></li>
+    </ul>
+  </section>
+
+  </main>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var EVENTS = [
+    {id:'boe-0917', dateISO:'2026-09-17T14:00:00+03:00', dateKey:'2026-09-17', timeLabel:'14:00',
+     nameHe:'החלטת ריבית בנק אנגליה', nameEn:'BOE Official Bank Rate', country:'בריטניה', importance:'medium',
+     forecast:'ללא שינוי, 3.75% · הצבעה צפויה 3-0-6', previous:'3.75%',
+     whyHe:'החלטת בנק אנגליה משפיעה על הליש"ט, שמשקלה כ-12% במדד הדולר. הפתעה יונית מחזקת את הדולר ולוחצת על הזהב.'},
+
+    {id:'claims-0917', dateISO:'2026-09-17T15:30:00+03:00', dateKey:'2026-09-17', timeLabel:'15:30',
+     nameHe:'תביעות אבטלה ראשוניות', nameEn:'Unemployment Claims', country:'ארה"ב', importance:'important',
+     forecast:'207 אלף', previous:'206 אלף',
+     whyHe:'הנתון הראשון על שוק העבודה שמתפרסם אחרי החלטת הריבית. קריאה גבוהה מהצפי תרכך את ציפיות ההעלאה הבאה ותתמוך בזהב; קריאה נמוכה תחזק את הדולר.'},
+
+    {id:'philly-0917', dateISO:'2026-09-17T15:30:00+03:00', dateKey:'2026-09-17', timeLabel:'15:30',
+     nameHe:'מדד פילי פד לייצור', nameEn:'Philadelphia Fed Manufacturing Index', country:'ארה"ב', importance:'important',
+     forecast:'31.3', previous:'47.4',
+     whyHe:'צפויה האטה חדה מהקריאה הקודמת. סימני חולשה בתעשייה מקטינים את הסבירות להעלאות נוספות — בדרך כלל תומך בזהב.'},
+
+    {id:'housing-0917', dateISO:'2026-09-17T15:30:00+03:00', dateKey:'2026-09-17', timeLabel:'15:30',
+     nameHe:'התחלות והיתרי בנייה', nameEn:'Housing Starts & Building Permits', country:'ארה"ב', importance:'medium',
+     forecast:'1.32M התחלות · 1.40M היתרים', previous:'1.24M · 1.43M',
+     whyHe:'שוק הדיור רגיש לריבית. חולשה מתמשכת מעידה שההידוק המוניטרי כבר פוגע בכלכלה הריאלית.'},
+
+    {id:'boj-0917', dateISO:'2026-09-17T19:00:00+03:00', dateKey:'2026-09-17', timeLabel:'טרם נקבע (משוער)',
+     nameHe:'החלטת ריבית בנק יפן', nameEn:'BOJ Policy Rate', country:'יפן', importance:'important',
+     forecast:'העלאה ל-1.25%', previous:'1.00%',
+     whyHe:'הין מהווה כ-13.6% ממשקל מדד הדולר. העלאה ביפן מחזקת את הין, מחלישה את הדולר — ובדרך כלל תומכת בזהב.'},
+
+    {id:'bowman-0918', dateISO:'2026-09-18T16:30:00+03:00', dateKey:'2026-09-18', timeLabel:'16:30',
+     nameHe:'נאום חברת הפד באומן', nameEn:'FOMC Member Bowman Speaks', country:'ארה"ב', importance:'important',
+     forecast:'—', previous:'—',
+     whyHe:'הנאום הראשון של חברת ועדה אחרי ההחלטה. הבהרה לגבי קצב ההעלאות הבא יכולה להזיז את הדולר ואת הזהב.'},
+
+    {id:'schmid-0918', dateISO:'2026-09-18T18:45:00+03:00', dateKey:'2026-09-18', timeLabel:'18:45',
+     nameHe:'נאום חבר הפד שמיד', nameEn:'FOMC Member Schmid Speaks', country:'ארה"ב', importance:'medium',
+     forecast:'—', previous:'—',
+     whyHe:'נאום נוסף שעשוי להבהיר עד כמה רחבה התמיכה בעוד העלאה השנה.'},
+
+    {id:'pce-aug', dateISO:'2026-09-26T15:30:00+03:00', dateKey:'2026-09-26', timeLabel:'15:30',
+     nameHe:'מדד ה-PCE (אוגוסט)', nameEn:'Core PCE Price Index', country:'ארה"ב', importance:'critical',
+     forecast:'תתעדכן קרוב למועד הפרסום', previous:'—',
+     whyHe:'מדד האינפלציה המועדף על הפד. אחרי החלטה ניצית, קריאה גבוהה תחזק את הציפיות להעלאה נוספת ותלחץ על הזהב.'},
+
+    {id:'nfp-sep', dateISO:'2026-10-02T15:30:00+03:00', dateKey:'2026-10-02', timeLabel:'15:30',
+     nameHe:'דוח תעסוקה (NFP, ספטמבר)', nameEn:'Nonfarm Payrolls', country:'ארה"ב', importance:'critical',
+     forecast:'תתעדכן קרוב למועד הפרסום', previous:'+162 אלף משרות · אבטלה 4.1%',
+     whyHe:'מהאירועים המשפיעים ביותר על ציפיות הריבית. דוח חזק תומך בדולר ולוחץ על הזהב; דוח חלש פועל הפוך.'},
+
+    {id:'cpi-sep', dateISO:'2026-10-14T15:30:00+03:00', dateKey:'2026-10-14', timeLabel:'15:30',
+     nameHe:'מדד המחירים לצרכן (CPI, ספטמבר)', nameEn:'Consumer Price Index', country:'ארה"ב', importance:'critical',
+     forecast:'תתעדכן קרוב למועד הפרסום', previous:'3.4% שנתי · ליבה 2.4%',
+     whyHe:'נתון אינפלציה מרכזי. עם מחירי אנרגיה גבוהים, קריאה חמה תחזק את התרחיש של עוד העלאה ב-28.10.'},
+
+    {id:'fomc-oct', dateISO:'2026-10-28T21:00:00+03:00', dateKey:'2026-10-28', timeLabel:'21:00',
+     nameHe:'החלטת ריבית הפד', nameEn:'FOMC Rate Decision', country:'ארה"ב', importance:'critical',
+     forecast:'רוב חברי הוועדה צופים עוד העלאה אחת ב-2026', previous:'3.75%–4.00%',
+     whyHe:'לפי הדוט-פלוט, 16 מתוך 18 חברים צופים לפחות העלאה נוספת השנה — ההחלטה הזו היא האירוע המרכזי לזהב בהמשך הרבעון.'}
+  ];
+
+  var SIG = {
+    critical:{icon:'🔥', cls:'sig-neg',  label:'קריטי לזהב'},
+    important:{icon:'🟠', cls:'sig-warn', label:'חשוב לזהב'},
+    medium:{icon:'🟡', cls:'sig-neutral', label:'השפעה בינונית'}
+  };
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function chip(imp){
+    var s = SIG[imp] || SIG.medium;
+    return '<span class="sig ' + s.cls + '"><span aria-hidden="true">' + s.icon + '</span> ' + s.label + '</span>';
+  }
+
+  function ilDateKey(d){
+    return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jerusalem',year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
+  }
+  function ilClockStr(d){
+    return new Intl.DateTimeFormat('he-IL',{timeZone:'Asia/Jerusalem',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(d);
+  }
+
+  var SNAPSHOT_KEY = '2026-09-17';
+
+  function findNextEvent(now){
+    var upcoming = EVENTS.filter(function(e){ return new Date(e.dateISO).getTime() > now.getTime(); });
+    upcoming.sort(function(a,b){ return new Date(a.dateISO) - new Date(b.dateISO); });
+    return upcoming[0] || null;
+  }
+
+  function fmtCountdown(ms){
+    if(ms < 0) ms = 0;
+    var totalSec = Math.floor(ms/1000);
+    var days = Math.floor(totalSec/86400);
+    var hours = Math.floor((totalSec%86400)/3600);
+    var mins = Math.floor((totalSec%3600)/60);
+    var secs = totalSec%60;
+    function p(n){ return String(n).padStart(2,'0'); }
+    var clock = p(hours) + ':' + p(mins) + ':' + p(secs);
+    return {
+      big: days > 0 ? (days + ' ימים ' + clock) : clock,
+      text: (days > 0 ? days + ' ימים, ' : '') + hours + ' שעות ו-' + mins + ' דקות'
+    };
+  }
+
+  function renderNextEvent(){
+    var box = document.getElementById('nextEventBox');
+    var now = new Date();
+    var ev = findNextEvent(now);
+
+    if(!ev){
+      box.innerHTML = '<p class="event-why">לא נמצא אירוע עתידי במאגר הנתונים הנוכחי. בקשו מ-Claude לעדכן את רשימת האירועים.</p>';
+      return;
+    }
+
+    var ms = new Date(ev.dateISO).getTime() - now.getTime();
+    var mins = ms/60000;
+
+    var alertHtml = '';
+    var cdClass = 'countdown';
+    if(mins <= 10){
+      cdClass += ' critical';
+      alertHtml = '<p class="pre-alert critical" role="alert"><span aria-hidden="true">🔴</span> אירוע קריטי מתקרב — אין להסתמך על תנאי השוק הנוכחיים כמצב יציב.</p>';
+    } else if(mins <= 30){
+      cdClass += ' alert';
+      alertHtml = '<p class="pre-alert" role="alert"><span aria-hidden="true">⚠️</span> צפויה עלייה בתנודתיות בחוזי GC/MGC.</p>';
+    } else if(mins <= 60){
+      cdClass += ' alert';
+      alertHtml = '<p class="pre-alert" role="alert"><span aria-hidden="true">⚠️</span> שימו לב — האירוע מתקרב.</p>';
+    }
+
+    box.innerHTML =
+      '<div class="event-head">' +
+        '<h3 class="event-name">' + esc(ev.nameHe) + ' <span class="en" lang="en" dir="ltr">(' + esc(ev.nameEn) + ')</span></h3>' +
+        chip(ev.importance) +
+      '</div>' +
+      '<p class="event-meta"><span>' + esc(ev.country) + '</span><span>' + esc(ev.timeLabel) + ' · שעון ישראל</span></p>' +
+      '<div class="event-grid">' +
+        '<div><p class="k">תחזית</p><p class="v">' + esc(ev.forecast) + '</p></div>' +
+        '<div><p class="k">קודם</p><p class="v">' + esc(ev.previous) + '</p></div>' +
+      '</div>' +
+      '<p class="event-why"><strong>למה זה חשוב לזהב:</strong> ' + esc(ev.whyHe) + '</p>' +
+      '<div class="' + cdClass + '">' +
+        '<p class="num mono" id="cdNum" dir="ltr" role="timer" aria-labelledby="cdLbl" aria-live="off"></p>' +
+        '<p class="lbl" id="cdLbl">זמן שנותר עד לפרסום</p>' +
+        '<p class="sr-only" id="cdSr" aria-live="polite"></p>' +
+      '</div>' +
+      alertHtml;
+
+    var lastMin = -1;
+    function tick(){
+      var el = document.getElementById('cdNum');
+      if(!el) return;
+      var left = new Date(ev.dateISO).getTime() - Date.now();
+      if(left <= 0){
+        el.textContent = 'פורסם / עבר המועד';
+        return;
+      }
+      var f = fmtCountdown(left);
+      el.textContent = f.big;
+      var m = Math.floor(left/60000);
+      if(m !== lastMin){
+        lastMin = m;
+        var sr = document.getElementById('cdSr');
+        if(sr) sr.textContent = 'נותרו ' + f.text + ' עד ' + ev.nameHe;
+      }
+    }
+    tick();
+    if(window.__cdTimer) clearInterval(window.__cdTimer);
+    window.__cdTimer = setInterval(tick, 1000);
+  }
+
+  var RISK_LEVELS = [
+    {icon:'🟢', label:'נמוכה', cls:'sig-pos'},
+    {icon:'🟡', label:'בינונית', cls:'sig-warn'},
+    {icon:'🟠', label:'גבוהה', cls:'sig-warn'},
+    {icon:'🔴', label:'חריגה', cls:'sig-neg'}
+  ];
+
+  function renderRisk(todaysEvents){
+    var level = 0;
+    if(todaysEvents.some(function(e){return e.importance==='critical';})) level = 3;
+    else if(todaysEvents.some(function(e){return e.importance==='important';})) level = 2;
+    else if(todaysEvents.length) level = 1;
+
+    var L = RISK_LEVELS[level];
+    document.getElementById('riskTitle').textContent = L.label;
+    var chipEl = document.getElementById('riskChip');
+    chipEl.className = 'sig ' + L.cls;
+    chipEl.innerHTML = '<span aria-hidden="true">' + L.icon + '</span> רמת סיכון ' + L.label;
+
+    var list = document.getElementById('riskList');
+    list.innerHTML = '';
+    if(todaysEvents.length === 0){
+      list.innerHTML = '<li><span class="sig sig-pos"><span aria-hidden="true">🟢</span> רגוע</span><span>לוח מאקרו רגוע יחסית — לא אותרו אירועים אמריקאיים משמעותיים היום.</span></li>';
+    } else {
+      list.innerHTML = todaysEvents.map(function(e){
+        return '<li>' + chip(e.importance) + '<span>' + esc(e.nameHe) + ' — ' + esc(e.timeLabel) + '</span></li>';
+      }).join('');
+    }
+  }
+
+  function renderTimeline(todaysEvents){
+    var box = document.getElementById('todayTimeline');
+    if(todaysEvents.length === 0){
+      box.innerHTML = '<li><p class="empty-note">לא אותרו אירועים גדולים המתוזמנים ליום זה במאגר הנתונים הנוכחי.</p></li>';
+      return;
+    }
+    var sorted = todaysEvents.slice().sort(function(a,b){ return new Date(a.dateISO)-new Date(b.dateISO); });
+    box.innerHTML = sorted.map(function(e){
+      return '<li class="t-row">' +
+        '<p class="t-time" dir="ltr">' + esc(e.timeLabel) + '</p>' +
+        '<div>' +
+          '<h3 class="t-name">' + esc(e.nameHe) + ' <span class="en" lang="en" dir="ltr">(' + esc(e.nameEn) + ')</span></h3>' +
+          chip(e.importance) +
+          '<p class="t-why">' + esc(e.whyHe) + '</p>' +
+        '</div>' +
+      '</li>';
+    }).join('');
+  }
+
+  function tickClock(){
+    document.getElementById('ilClock').textContent = ilClockStr(new Date());
+  }
+
+  function renderStamps(){
+    var todayKey = ilDateKey(new Date());
+    var snap = new Date(SNAPSHOT_KEY + 'T00:00:00+03:00');
+    var today0 = new Date(todayKey + 'T00:00:00+03:00');
+    var days = Math.round((today0 - snap) / 86400000);
+    var el = document.getElementById('daysSince');
+    if(days <= 0) el.textContent = '· עדכני להיום';
+    else if(days === 1) el.textContent = '· לפני יום';
+    else el.textContent = '· לפני ' + days + ' ימים — כדאי לבקש רענון';
+  }
+
+  function highlightToday(todayKey){
+    document.querySelectorAll('.week-row').forEach(function(r){
+      if(r.getAttribute('data-key') === todayKey){
+        r.classList.add('is-today');
+        r.setAttribute('aria-current','date');
+        var wd = r.querySelector('.wd');
+        if(wd) wd.insertAdjacentHTML('afterbegin','<span class="sr-only">היום: </span>');
+      }
+    });
+  }
+
+  /* ---------- theme toggle ---------- */
+  function setTheme(mode){
+    document.documentElement.setAttribute('data-theme', mode);
+    var btn = document.getElementById('themeBtn');
+    var dark = mode === 'dark';
+    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    btn.innerHTML = dark
+      ? '<span aria-hidden="true">☀️</span> מצב בהיר'
+      : '<span aria-hidden="true">🌙</span> מצב כהה';
+    try{ localStorage.setItem('goldmacro-theme', mode); }catch(err){}
+  }
+
+  function initTheme(){
+    var saved = null;
+    try{ saved = localStorage.getItem('goldmacro-theme'); }catch(err){}
+    setTheme(saved === 'dark' ? 'dark' : 'light');
+    document.getElementById('themeBtn').addEventListener('click', function(){
+      setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+  }
+
+  function init(){
+    var todayKey = ilDateKey(new Date());
+    var todaysEvents = EVENTS.filter(function(e){ return e.dateKey === todayKey; });
+
+    initTheme();
+    renderNextEvent();
+    renderRisk(todaysEvents);
+    renderTimeline(todaysEvents);
+    renderStamps();
+    highlightToday(todayKey);
+
+    tickClock();
+    setInterval(tickClock, 1000);
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
