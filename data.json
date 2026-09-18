@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-18T09:24:03+03:00",
+  "updated": "2026-09-18T10:19:27+03:00",
   "events": [
     {
       "id": "revised-industrial-production-m-m-09140730",
@@ -324,20 +324,6 @@
       "whyHe": "עשוי להשפיע בעקיפין על הדולר ועל תנועות מטבע גלובליות, ולכן גם על חוזי הזהב."
     },
     {
-      "id": "boj-press-conference-09180830",
-      "dateISO": "2026-09-18T08:30:00+03:00",
-      "dateKey": "2026-09-18",
-      "timeLabel": "08:30",
-      "nameHe": "בנק יפן",
-      "nameEn": "BOJ Press Conference",
-      "country": "JPY",
-      "importance": "important",
-      "forecast": "—",
-      "previous": "—",
-      "actual": null,
-      "whyHe": "עשוי להשפיע בעקיפין על הדולר ועל תנועות מטבע גלובליות, ולכן גם על חוזי הזהב."
-    },
-    {
       "id": "retail-sales-m-m-09180900",
       "dateISO": "2026-09-18T09:00:00+03:00",
       "dateKey": "2026-09-18",
@@ -350,6 +336,20 @@
       "previous": "-0.5%",
       "actual": null,
       "whyHe": "מודד את עוצמת הכלכלה. נתון חזק יכול לחזק ציפיות לריבית גבוהה יותר; נתון חלש יכול להפחית אותן."
+    },
+    {
+      "id": "boj-press-conference-09180930",
+      "dateISO": "2026-09-18T09:30:00+03:00",
+      "dateKey": "2026-09-18",
+      "timeLabel": "09:30",
+      "nameHe": "בנק יפן",
+      "nameEn": "BOJ Press Conference",
+      "country": "JPY",
+      "importance": "important",
+      "forecast": "—",
+      "previous": "—",
+      "actual": null,
+      "whyHe": "עשוי להשפיע בעקיפין על הדולר ועל תנועות מטבע גלובליות, ולכן גם על חוזי הזהב."
     },
     {
       "id": "ecb-president-lagarde-speaks-09181330",
