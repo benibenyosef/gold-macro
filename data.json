@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-21T22:17:26+03:00",
+  "updated": "2026-09-21T23:18:37+03:00",
   "events": [
     {
       "id": "fomc-member-goolsbee-speaks-09211330",
@@ -240,6 +240,20 @@
       "whyHe": "מודד את עוצמת הכלכלה. נתון חזק יכול לחזק ציפיות לריבית גבוהה יותר; נתון חלש יכול להפחית אותן."
     },
     {
+      "id": "fomc-member-barkin-speaks-09241530",
+      "dateISO": "2026-09-24T15:30:00+03:00",
+      "dateKey": "2026-09-24",
+      "timeLabel": "15:30",
+      "nameHe": "FOMC Member Barkin Speaks",
+      "nameEn": "FOMC Member Barkin Speaks",
+      "country": "USD",
+      "importance": "critical",
+      "forecast": "—",
+      "previous": "—",
+      "actual": null,
+      "whyHe": "מדיניות הפד היא מהגורמים המרכזיים לזהב. מסר ניצי וריבית גבוהה יותר נוטים ללחוץ על הזהב; מסר יוני נוטה לתמוך בו."
+    },
+    {
       "id": "unemployment-claims-09241530",
       "dateISO": "2026-09-24T15:30:00+03:00",
       "dateKey": "2026-09-24",
@@ -382,16 +396,16 @@
   ],
   "market": {
     "us10y": {
-      "value": 4.94,
-      "direction": "down",
-      "date": "2026-09-17",
-      "change": -0.07
+      "value": 5.01,
+      "direction": "up",
+      "date": "2026-09-18",
+      "change": 0.07
     },
     "us2y": {
-      "value": 4.67,
-      "direction": "down",
-      "date": "2026-09-17",
-      "change": -0.07
+      "value": 4.76,
+      "direction": "up",
+      "date": "2026-09-18",
+      "change": 0.09
     },
     "dxy": {
       "value": null,
@@ -401,9 +415,9 @@
     }
   },
   "macro": {
-    "status": "positive",
-    "title": "סביבה מאקרו תומכת בזהב",
-    "summary": "רוב גורמי המאקרו הזמינים — בעיקר תשואות ו/או דולר — נעים בכיוון שבדרך כלל תומך בחוזי GC/MGC."
+    "status": "negative",
+    "title": "סביבה מאקרו לוחצת על הזהב",
+    "summary": "רוב גורמי המאקרו הזמינים — בעיקר תשואות ו/או דולר — נעים בכיוון שבדרך כלל מקשה על חוזי GC/MGC."
   },
   "sources": [
     "Metals Mine / Fair Economy calendar export",
