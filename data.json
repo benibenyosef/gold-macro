@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-21T23:18:37+03:00",
+  "updated": "2026-09-22T00:18:05+03:00",
   "events": [
     {
       "id": "fomc-member-goolsbee-speaks-09211330",
@@ -178,7 +178,7 @@
       "nameEn": "Employment Change",
       "country": "AUD",
       "importance": "medium",
-      "forecast": "20.9K",
+      "forecast": "22.5K",
       "previous": "-15.8K",
       "actual": null,
       "whyHe": "משפיע על הערכת עוצמת שוק העבודה ועל ציפיות הריבית. שוק עבודה חזק נוטה לתמוך בדולר ובתשואות; חולשה יכולה לתמוך בזהב."
@@ -290,7 +290,7 @@
       "nameEn": "New Home Sales",
       "country": "USD",
       "importance": "medium",
-      "forecast": "619K",
+      "forecast": "615K",
       "previous": "607K",
       "actual": null,
       "whyHe": "אירוע מאקרו שעשוי להשפיע על הדולר, התשואות או ציפיות הריבית — שלושת הצירים המרכזיים לחוזי הזהב."
@@ -318,7 +318,7 @@
       "nameEn": "BOJ Core CPI y/y",
       "country": "JPY",
       "importance": "critical",
-      "forecast": "—",
+      "forecast": "1.5%",
       "previous": "1.6%",
       "actual": null,
       "whyHe": "משפיע על ציפיות האינפלציה והריבית. נתון חם מהצפי עשוי להעלות תשואות וללחוץ על הזהב; נתון חלש עשוי לפעול הפוך."
@@ -360,7 +360,7 @@
       "nameEn": "Revised UoM Consumer Sentiment",
       "country": "USD",
       "importance": "important",
-      "forecast": "47.5",
+      "forecast": "47.4",
       "previous": "47.8",
       "actual": null,
       "whyHe": "מודד את עוצמת הכלכלה. נתון חזק יכול לחזק ציפיות לריבית גבוהה יותר; נתון חלש יכול להפחית אותן."
