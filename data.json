@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-22T14:18:30+03:00",
+  "updated": "2026-09-22T15:23:44+03:00",
   "events": [
     {
       "id": "fomc-member-goolsbee-speaks-09211330",
@@ -56,6 +56,20 @@
       "previous": "16.3K",
       "actual": null,
       "whyHe": "משפיע על הערכת עוצמת שוק העבודה ועל ציפיות הריבית. שוק עבודה חזק נוטה לתמוך בדולר ובתשואות; חולשה יכולה לתמוך בזהב."
+    },
+    {
+      "id": "president-trump-speaks-09221655",
+      "dateISO": "2026-09-22T16:55:00+03:00",
+      "dateKey": "2026-09-22",
+      "timeLabel": "16:55",
+      "nameHe": "President Trump Speaks",
+      "nameEn": "President Trump Speaks",
+      "country": "USD",
+      "importance": "medium",
+      "forecast": "—",
+      "previous": "—",
+      "actual": null,
+      "whyHe": "אירוע מאקרו שעשוי להשפיע על הדולר, התשואות או ציפיות הריבית — שלושת הצירים המרכזיים לחוזי הזהב."
     },
     {
       "id": "consumer-confidence-09221700",
