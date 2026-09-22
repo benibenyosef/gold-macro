@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-22T23:17:35+03:00",
+  "updated": "2026-09-23T00:17:09+03:00",
   "events": [
     {
       "id": "fomc-member-goolsbee-speaks-09211330",
@@ -410,16 +410,16 @@
   ],
   "market": {
     "us10y": {
-      "value": 5.01,
-      "direction": "up",
-      "date": "2026-09-18",
-      "change": 0.07
+      "value": 4.96,
+      "direction": "down",
+      "date": "2026-09-21",
+      "change": -0.05
     },
     "us2y": {
       "value": 4.76,
-      "direction": "up",
-      "date": "2026-09-18",
-      "change": 0.09
+      "direction": "flat",
+      "date": "2026-09-21",
+      "change": 0.0
     },
     "dxy": {
       "value": null,
@@ -429,9 +429,9 @@
     }
   },
   "macro": {
-    "status": "negative",
-    "title": "סביבה מאקרו לוחצת על הזהב",
-    "summary": "רוב גורמי המאקרו הזמינים — בעיקר תשואות ו/או דולר — נעים בכיוון שבדרך כלל מקשה על חוזי GC/MGC."
+    "status": "mixed",
+    "title": "תמונת המאקרו מעורבת",
+    "summary": "האותות מהדולר ומהתשואות אינם אחידים כרגע. מומלץ לתת משקל גבוה לאירוע המאקרו הקרוב ולתגובת התשואות לאחר הפרסום."
   },
   "sources": [
     "Metals Mine / Fair Economy calendar export",
