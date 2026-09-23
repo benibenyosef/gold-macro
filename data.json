@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-23T16:20:57+03:00",
+  "updated": "2026-09-23T17:20:21+03:00",
   "events": [
     {
       "id": "fomc-member-goolsbee-speaks-09211330",
@@ -206,7 +206,7 @@
       "nameEn": "Employment Change",
       "country": "AUD",
       "importance": "medium",
-      "forecast": "22.5K",
+      "forecast": "21.5K",
       "previous": "-15.8K",
       "actual": null,
       "whyHe": "משפיע על הערכת עוצמת שוק העבודה ועל ציפיות הריבית. שוק עבודה חזק נוטה לתמוך בדולר ובתשואות; חולשה יכולה לתמוך בזהב."
