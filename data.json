@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-23T04:17:46+03:00",
+  "updated": "2026-09-23T05:18:59+03:00",
   "events": [
     {
       "id": "fomc-member-goolsbee-speaks-09211330",
@@ -178,10 +178,24 @@
       "nameEn": "Industrial Production y/y",
       "country": "RUB",
       "importance": "important",
-      "forecast": "0.7%",
+      "forecast": "0.8%",
       "previous": "0.4%",
       "actual": null,
       "whyHe": "מודד את עוצמת הכלכלה. נתון חזק יכול לחזק ציפיות לריבית גבוהה יותר; נתון חלש יכול להפחית אותן."
+    },
+    {
+      "id": "fomc-member-goolsbee-speaks-09231900",
+      "dateISO": "2026-09-23T19:00:00+03:00",
+      "dateKey": "2026-09-23",
+      "timeLabel": "19:00",
+      "nameHe": "FOMC Member Goolsbee Speaks",
+      "nameEn": "FOMC Member Goolsbee Speaks",
+      "country": "USD",
+      "importance": "critical",
+      "forecast": "—",
+      "previous": "—",
+      "actual": null,
+      "whyHe": "מדיניות הפד היא מהגורמים המרכזיים לזהב. מסר ניצי וריבית גבוהה יותר נוטים ללחוץ על הזהב; מסר יוני נוטה לתמוך בו."
     },
     {
       "id": "employment-change-09240430",
@@ -358,6 +372,20 @@
       "timeLabel": "12:15",
       "nameHe": "FOMC Member Williams Speaks",
       "nameEn": "FOMC Member Williams Speaks",
+      "country": "USD",
+      "importance": "critical",
+      "forecast": "—",
+      "previous": "—",
+      "actual": null,
+      "whyHe": "מדיניות הפד היא מהגורמים המרכזיים לזהב. מסר ניצי וריבית גבוהה יותר נוטים ללחוץ על הזהב; מסר יוני נוטה לתמוך בו."
+    },
+    {
+      "id": "fomc-member-schmid-speaks-09251620",
+      "dateISO": "2026-09-25T16:20:00+03:00",
+      "dateKey": "2026-09-25",
+      "timeLabel": "16:20",
+      "nameHe": "FOMC Member Schmid Speaks",
+      "nameEn": "FOMC Member Schmid Speaks",
       "country": "USD",
       "importance": "critical",
       "forecast": "—",
