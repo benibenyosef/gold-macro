@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-25T01:19:01+03:00",
+  "updated": "2026-09-25T02:17:40+03:00",
   "events": [
     {
       "id": "fomc-member-goolsbee-speaks-09211330",
@@ -342,6 +342,20 @@
       "dateISO": "2026-09-24T17:15:00+03:00",
       "dateKey": "2026-09-24",
       "timeLabel": "17:15",
+      "nameHe": "President Trump Speaks",
+      "nameEn": "President Trump Speaks",
+      "country": "USD",
+      "importance": "medium",
+      "forecast": "—",
+      "previous": "—",
+      "actual": null,
+      "whyHe": "אירוע מאקרו שעשוי להשפיע על הדולר, התשואות או ציפיות הריבית — שלושת הצירים המרכזיים לחוזי הזהב."
+    },
+    {
+      "id": "president-trump-speaks-09250255",
+      "dateISO": "2026-09-25T02:55:00+03:00",
+      "dateKey": "2026-09-25",
+      "timeLabel": "02:55",
       "nameHe": "President Trump Speaks",
       "nameEn": "President Trump Speaks",
       "country": "USD",
