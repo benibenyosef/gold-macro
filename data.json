@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28T21:23:09+03:00",
+  "updated": "2026-09-28T22:19:06+03:00",
   "events": [
     {
       "id": "fomc-member-bowman-speaks-09281515",
@@ -66,7 +66,7 @@
       "nameEn": "Flash CPI y/y",
       "country": "EUR",
       "importance": "critical",
-      "forecast": "4.7%",
+      "forecast": "4.6%",
       "previous": "4.3%",
       "actual": null,
       "whyHe": "משפיע על ציפיות האינפלציה והריבית. נתון חם מהצפי עשוי להעלות תשואות וללחוץ על הזהב; נתון חלש עשוי לפעול הפוך."
@@ -94,7 +94,7 @@
       "nameEn": "GDP m/m",
       "country": "CAD",
       "importance": "important",
-      "forecast": "0.1%",
+      "forecast": "0.0%",
       "previous": "0.3%",
       "actual": null,
       "whyHe": "מודד את עוצמת הכלכלה. נתון חזק יכול לחזק ציפיות לריבית גבוהה יותר; נתון חלש יכול להפחית אותן."
@@ -108,7 +108,7 @@
       "nameEn": "CB Consumer Confidence",
       "country": "USD",
       "importance": "important",
-      "forecast": "90.1",
+      "forecast": "89.2",
       "previous": "89.4",
       "actual": null,
       "whyHe": "מודד את עוצמת הכלכלה. נתון חזק יכול לחזק ציפיות לריבית גבוהה יותר; נתון חלש יכול להפחית אותן."
@@ -220,7 +220,7 @@
       "nameEn": "Prelim Industrial Production m/m",
       "country": "JPY",
       "importance": "important",
-      "forecast": "1.2%",
+      "forecast": "1.4%",
       "previous": "0.1%",
       "actual": null,
       "whyHe": "מודד את עוצמת הכלכלה. נתון חזק יכול לחזק ציפיות לריבית גבוהה יותר; נתון חלש יכול להפחית אותן."
@@ -276,7 +276,7 @@
       "nameEn": "Retail Sales m/m",
       "country": "EUR",
       "importance": "important",
-      "forecast": "1.4%",
+      "forecast": "1.6%",
       "previous": "-3.4%",
       "actual": null,
       "whyHe": "מודד את עוצמת הכלכלה. נתון חזק יכול לחזק ציפיות לריבית גבוהה יותר; נתון חלש יכול להפחית אותן."
@@ -332,7 +332,7 @@
       "nameEn": "Prelim CPI m/m",
       "country": "EUR",
       "importance": "critical",
-      "forecast": "0.0%",
+      "forecast": "0.2%",
       "previous": "0.5%",
       "actual": null,
       "whyHe": "משפיע על ציפיות האינפלציה והריבית. נתון חם מהצפי עשוי להעלות תשואות וללחוץ על הזהב; נתון חלש עשוי לפעול הפוך."
@@ -346,7 +346,7 @@
       "nameEn": "ADP Non-Farm Employment Change",
       "country": "USD",
       "importance": "critical",
-      "forecast": "70K",
+      "forecast": "73K",
       "previous": "38K",
       "actual": null,
       "whyHe": "משפיע על הערכת עוצמת שוק העבודה ועל ציפיות הריבית. שוק עבודה חזק נוטה לתמוך בדולר ובתשואות; חולשה יכולה לתמוך בזהב."
