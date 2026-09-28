@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28T22:19:06+03:00",
+  "updated": "2026-09-28T23:18:41+03:00",
   "events": [
     {
       "id": "fomc-member-bowman-speaks-09281515",
@@ -500,7 +500,7 @@
       "nameEn": "Unemployment Claims",
       "country": "USD",
       "importance": "important",
-      "forecast": "199K",
+      "forecast": "201K",
       "previous": "197K",
       "actual": null,
       "whyHe": "משפיע על הערכת עוצמת שוק העבודה ועל ציפיות הריבית. שוק עבודה חזק נוטה לתמוך בדולר ובתשואות; חולשה יכולה לתמוך בזהב."
@@ -584,7 +584,7 @@
       "nameEn": "ISM Manufacturing PMI",
       "country": "USD",
       "importance": "important",
-      "forecast": "55.0",
+      "forecast": "54.8",
       "previous": "54.6",
       "actual": null,
       "whyHe": "מודד את עוצמת הכלכלה. נתון חזק יכול לחזק ציפיות לריבית גבוהה יותר; נתון חלש יכול להפחית אותן."
@@ -598,7 +598,7 @@
       "nameEn": "ISM Manufacturing Prices",
       "country": "USD",
       "importance": "important",
-      "forecast": "72.0",
+      "forecast": "72.9",
       "previous": "71.1",
       "actual": null,
       "whyHe": "מודד את עוצמת הכלכלה. נתון חזק יכול לחזק ציפיות לריבית גבוהה יותר; נתון חלש יכול להפחית אותן."
@@ -710,7 +710,7 @@
       "nameEn": "Industrial Production m/m",
       "country": "BRL",
       "importance": "important",
-      "forecast": "-0.5%",
+      "forecast": "0.1%",
       "previous": "0.2%",
       "actual": null,
       "whyHe": "מודד את עוצמת הכלכלה. נתון חזק יכול לחזק ציפיות לריבית גבוהה יותר; נתון חלש יכול להפחית אותן."
@@ -738,7 +738,7 @@
       "nameEn": "Non-Farm Employment Change",
       "country": "USD",
       "importance": "critical",
-      "forecast": "89K",
+      "forecast": "90K",
       "previous": "162K",
       "actual": null,
       "whyHe": "משפיע על הערכת עוצמת שוק העבודה ועל ציפיות הריבית. שוק עבודה חזק נוטה לתמוך בדולר ובתשואות; חולשה יכולה לתמוך בזהב."
