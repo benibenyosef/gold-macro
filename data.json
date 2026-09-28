@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28T23:18:41+03:00",
+  "updated": "2026-09-29T00:19:54+03:00",
   "events": [
     {
       "id": "fomc-member-bowman-speaks-09281515",
@@ -774,16 +774,16 @@
   ],
   "market": {
     "us10y": {
-      "value": 5.18,
-      "direction": "up",
-      "date": "2026-09-24",
-      "change": 0.07
+      "value": 5.17,
+      "direction": "down",
+      "date": "2026-09-25",
+      "change": -0.01
     },
     "us2y": {
-      "value": 4.87,
-      "direction": "up",
-      "date": "2026-09-24",
-      "change": 0.02
+      "value": 4.81,
+      "direction": "down",
+      "date": "2026-09-25",
+      "change": -0.06
     },
     "dxy": {
       "value": null,
@@ -793,9 +793,9 @@
     }
   },
   "macro": {
-    "status": "negative",
-    "title": "סביבה מאקרו לוחצת על הזהב",
-    "summary": "רוב גורמי המאקרו הזמינים — בעיקר תשואות ו/או דולר — נעים בכיוון שבדרך כלל מקשה על חוזי GC/MGC."
+    "status": "positive",
+    "title": "סביבה מאקרו תומכת בזהב",
+    "summary": "רוב גורמי המאקרו הזמינים — בעיקר תשואות ו/או דולר — נעים בכיוון שבדרך כלל תומך בחוזי GC/MGC."
   },
   "sources": [
     "Metals Mine / Fair Economy calendar export",
