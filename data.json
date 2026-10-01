@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-01T22:21:05+03:00",
+  "updated": "2026-10-01T23:21:32+03:00",
   "events": [
     {
       "id": "fomc-member-bowman-speaks-09281515",
@@ -794,10 +794,10 @@
       "change": 0.02
     },
     "us2y": {
-      "value": 4.89,
+      "value": 4.88,
       "direction": "down",
-      "date": "2026-09-29",
-      "change": -0.03
+      "date": "2026-09-30",
+      "change": -0.01
     },
     "dxy": {
       "value": null,
