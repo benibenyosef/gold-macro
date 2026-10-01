@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-01T06:21:41+03:00",
+  "updated": "2026-10-01T07:22:00+03:00",
   "events": [
     {
       "id": "fomc-member-bowman-speaks-09281515",
@@ -752,7 +752,7 @@
       "nameEn": "Non-Farm Employment Change",
       "country": "USD",
       "importance": "critical",
-      "forecast": "90K",
+      "forecast": "89K",
       "previous": "162K",
       "actual": null,
       "whyHe": "משפיע על הערכת עוצמת שוק העבודה ועל ציפיות הריבית. שוק עבודה חזק נוטה לתמוך בדולר ובתשואות; חולשה יכולה לתמוך בזהב."
