@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-02T23:20:22+03:00",
+  "updated": "2026-10-03T00:19:44+03:00",
   "events": [
     {
       "id": "fomc-member-bowman-speaks-09281515",
@@ -802,16 +802,16 @@
   ],
   "market": {
     "us10y": {
-      "value": 5.29,
-      "direction": "up",
-      "date": "2026-09-30",
-      "change": 0.03
+      "value": 5.24,
+      "direction": "down",
+      "date": "2026-10-01",
+      "change": -0.05
     },
     "us2y": {
-      "value": 4.88,
+      "value": 4.78,
       "direction": "down",
-      "date": "2026-09-30",
-      "change": -0.01
+      "date": "2026-10-01",
+      "change": -0.1
     },
     "dxy": {
       "value": null,
@@ -821,9 +821,9 @@
     }
   },
   "macro": {
-    "status": "mixed",
-    "title": "תמונת המאקרו מעורבת",
-    "summary": "האותות מהדולר ומהתשואות אינם אחידים כרגע. מומלץ לתת משקל גבוה לאירוע המאקרו הקרוב ולתגובת התשואות לאחר הפרסום."
+    "status": "positive",
+    "title": "סביבה מאקרו תומכת בזהב",
+    "summary": "רוב גורמי המאקרו הזמינים — בעיקר תשואות ו/או דולר — נעים בכיוון שבדרך כלל תומך בחוזי GC/MGC."
   },
   "sources": [
     "Metals Mine / Fair Economy calendar export",
